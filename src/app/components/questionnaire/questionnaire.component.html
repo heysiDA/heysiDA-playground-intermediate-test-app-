@@ -1,0 +1,39 @@
+<div class="main">
+    <h2>Please fill out this questionnaire</h2>
+
+    <form [formGroup]="form">
+        <div class="main__field" formGroupName="item" *ngFor="let itemConfig of itemConfigs">
+            <span>{{itemConfig.item.text}}</span>
+            <ng-container
+                    formGroupName="{{itemConfig.item.linkId}}"
+                    [ngTemplateOutlet]="itemConfig.template"
+                    [ngTemplateOutletContext]="{ item:itemConfig.item }"
+            >
+            </ng-container>
+        </div>
+
+        <ng-template let-item="item" #defaultField>
+            <span>Default template for {{item.linkId}}</span>
+        </ng-template>
+
+        <ng-template let-item="item" #textAreaField>
+            <textarea [formControl]="getFormControl(item.linkId)">
+            </textarea>
+        </ng-template>
+
+        <ng-template let-item="item" #booleanField>
+            <input type="radio" value="true" name="field-{{item.linkId}}" [formControl]="getFormControl(item.linkId)"> True
+            <input type="radio" value="false" name="field-{{item.linkId}}" [formControl]="getFormControl(item.linkId)"> False
+        </ng-template>
+
+        <ng-template let-item="item" #selectField>
+            <select [formControl]="getFormControl(item.linkId)">
+                <option *ngFor="let option of item.option" [value]="option.valueCoding">{{option.valueCoding.display}}</option>
+            </select>
+        </ng-template>
+
+        <ng-template let-item="item" #dateField>
+            <input type="date" [formControl]="getFormControl(item.linkId)">
+        </ng-template>
+    </form>
+</div>
