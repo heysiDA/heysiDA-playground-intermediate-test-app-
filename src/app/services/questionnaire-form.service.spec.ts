@@ -1,5 +1,4 @@
 import {TestBed} from '@angular/core/testing';
-
 import {QuestionnaireFormService} from './questionnaire-form.service';
 import {Questionnaire} from "../interfaces/questionnaire.interface";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
@@ -55,12 +54,9 @@ describe('QuestionnaireFormService', () => {
   });
 
   describe('buildForm', () => {
-    it('should create the form correctly with default data', () => {
+    it('should create the form correctly with the default data', () => {
       const form: FormGroup = service.buildForm(mockQuestionnaire);
       expect(form.get('id')?.value).toBe(mockQuestionnaire.id);
-      expect(form.get('url')?.value).toBe(mockQuestionnaire.url);
-      expect(form.get('status')?.value).toBe(mockQuestionnaire.status);
-      expect(form.get('subjectType')?.value).toBe(mockQuestionnaire.subjectType);
     });
 
     it('should generate the controls for each item', () => {

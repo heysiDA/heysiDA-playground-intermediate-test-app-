@@ -1,10 +1,9 @@
-import {QuestionnaireItemTypeEnum} from '../enum/questionnaire-item-type.enum';
+import { QuestionnaireItemTypeEnum } from '../enum/questionnaire-item-type.enum';
+import { BaseItem, BaseQuestionnaire } from './base-questionnaire.interface';
 
-export interface Questionnaire {
-    resourceType: "Questionnaire";
-    id: string;
+export interface Questionnaire extends BaseQuestionnaire {
     url: string;
-    status: string;
+    status: "draft" | "active" | "retired" | "unknown";
     subjectType: string[];
     date: string | Date;
     item: QuestionnaireItem[];
@@ -23,10 +22,4 @@ export interface ValueCoding {
     system: string;
     code: string;
     display: string;
-}
-
-export interface BaseItem {
-    linkId:string;
-    text: string;
-    definition?: string;
 }

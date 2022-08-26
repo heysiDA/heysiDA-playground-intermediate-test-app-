@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Questionnaire, QuestionnaireItem} from '../interfaces/questionnaire.interface';
+import {formatDate} from '@angular/common';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Questionnaire, QuestionnaireItem} from '../interfaces/questionnaire.interface';
 import {QuestionnaireResponse, ResponseItem} from '../interfaces/questionnaire-response.interface';
 import {QuestionnaireItemTypeEnum} from '../enum/questionnaire-item-type.enum';
 
@@ -14,9 +15,6 @@ export class QuestionnaireFormService {
   public buildForm(questionnaireDef: Questionnaire): FormGroup {
     const form: FormGroup = this.fb.group({
       id: [questionnaireDef.id],
-      url: [questionnaireDef.url],
-      status: [questionnaireDef.status],
-      subjectType: [questionnaireDef.subjectType],
       item: this.fb.group({})
     });
 
@@ -37,7 +35,7 @@ export class QuestionnaireFormService {
     return {
       ...form.value,
       resourceType: 'QuestionnaireResponse',
-      date: new Date(),
+      authored: formatDate(new Date(),'yyyy-MM-dd',"en-CA"),
       item: this.buildItemResponse(questionnaireDef.item, form)
     };
   }

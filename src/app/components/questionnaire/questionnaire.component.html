@@ -9,7 +9,6 @@
                     [ngTemplateOutlet]="itemConfig.template"
                     [ngTemplateOutletContext]="{ item:itemConfig.item, formControl: getFormControl(itemConfig.item.linkId) }"
             >
-
             </ng-container>
             <div class="main__field-error"
                  *ngIf="
@@ -52,4 +51,7 @@
     <div *ngFor="let itemResp of questionnaireResponse.item; let index = index">
         {{itemResp.text}} : {{ form.value.item[itemResp.linkId].answer}}
     </div>
+
+    <h4>QuestionnaireResponse-JSON</h4>
+    <pre><p>{{questionnaireResponse | json}}</p></pre>
 </div>

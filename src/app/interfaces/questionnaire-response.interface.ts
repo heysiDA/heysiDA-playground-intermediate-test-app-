@@ -1,16 +1,14 @@
-import {BaseItem, ValueCoding} from './questionnaire.interface';
+import { ValueCoding} from './questionnaire.interface';
+import { BaseItem, BaseQuestionnaire } from './base-questionnaire.interface';
 
-export interface QuestionnaireResponse {
-    resourceType: "QuestionnaireResponse";
-    id: string;
-    url: string;
-    status: string;
-    subjectType: string[];
-    date: Date;
+export interface QuestionnaireResponse extends BaseQuestionnaire {
+    status?: "in-progress" | "completed" | "amended" | "entered-in-error" | "stopped";
+    subjectType?: string[];
+    authored: string | Date;
     item: ResponseItem[];
 }
 
-export interface ResponseItem  extends BaseItem{
+export interface ResponseItem  extends BaseItem {
     answer: QuestionnaireAnswer[];
 }
 
