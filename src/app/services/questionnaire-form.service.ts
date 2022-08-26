@@ -17,7 +17,6 @@ export class QuestionnaireFormService {
       url: [questionnaireDef.url],
       status: [questionnaireDef.status],
       subjectType: [questionnaireDef.subjectType],
-      date: [questionnaireDef.date],
       item: this.fb.group({})
     });
 
@@ -38,28 +37,24 @@ export class QuestionnaireFormService {
     return {
       ...form.value,
       resourceType: 'QuestionnaireResponse',
+      date: new Date(),
       item: this.buildItemResponse(questionnaireDef.item, form)
     };
   }
 
   private buildItemResponse(item: QuestionnaireItem[], form: FormGroup): ResponseItem[] {
     const formValue = form.value;
-    const response: ResponseItem[] = [];
-    Object.keys(formValue.item).forEach(linkId => {
-      const itemField = item
-          .find((field: QuestionnaireItem) => field.linkId === linkId) as QuestionnaireItem;
+    return item.map(itemField => {
       const answerPropertyName = this.getQuestionnaireAnswer(itemField?.type);
-      response.push({
-        linkId: itemField.linkId,
+      return {
+        linkId: itemField?.linkId,
         definition: itemField.definition,
         text: itemField.text,
         answer: [{[answerPropertyName]: itemField?.type !== QuestionnaireItemTypeEnum.choice
-              ? formValue.item[linkId].answer
-              :
-              itemField.option?.find(op => op.valueCoding.code === formValue.item[linkId].answer)?.valueCoding}]
-      } as ResponseItem);
-    })
-    return response;
+           ? formValue.item[itemField.linkId].answer
+           : itemField.option?.find(op => op.valueCoding.code === formValue.item[itemField.linkId].answer)?.valueCoding}]
+      }
+    });
   };
 
   private getQuestionnaireAnswer(itemType: QuestionnaireItemTypeEnum): string {

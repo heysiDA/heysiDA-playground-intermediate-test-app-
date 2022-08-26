@@ -1,12 +1,12 @@
 import {QuestionnaireItemTypeEnum} from '../enum/questionnaire-item-type.enum';
 
 export interface Questionnaire {
-    resourceType: "QuestionnaireResponse";
+    resourceType: "Questionnaire";
     id: string;
     url: string;
     status: string;
     subjectType: string[];
-    date: Date;
+    date: string | Date;
     item: QuestionnaireItem[];
 }
 
