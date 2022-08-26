@@ -49,5 +49,7 @@
 
 <div class="answer" *ngIf="!!questionnaireResponse">
     <h3>Please check your answers</h3>
-    {{questionnaireResponse | json}}
+    <div *ngFor="let itemResp of questionnaireResponse.item; let index = index">
+        {{itemResp.text}} : {{ form.value.item[itemResp.linkId].answer}}
+    </div>
 </div>
