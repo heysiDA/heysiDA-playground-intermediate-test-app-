@@ -1,39 +1,53 @@
 <div class="main">
     <h2>Please fill out this questionnaire</h2>
 
-    <form [formGroup]="form">
+    <form [formGroup]="form" (submit)="onSubmit()">
         <div class="main__field" formGroupName="item" *ngFor="let itemConfig of itemConfigs">
-            <span>{{itemConfig.item.text}}</span>
+            <span class="main__field-question">{{itemConfig.item.text}}</span>
             <ng-container
                     formGroupName="{{itemConfig.item.linkId}}"
                     [ngTemplateOutlet]="itemConfig.template"
-                    [ngTemplateOutletContext]="{ item:itemConfig.item }"
+                    [ngTemplateOutletContext]="{ item:itemConfig.item, formControl: getFormControl(itemConfig.item.linkId) }"
             >
+
             </ng-container>
+            <div class="main__field-error"
+                 *ngIf="
+                 getFormControl(itemConfig.item.linkId).dirty
+                 && getFormControl(itemConfig.item.linkId).touched
+                 && getFormControl(itemConfig.item.linkId).errors?.['required']">
+                This field is required.
+            </div>
         </div>
+        <button type="submit">Submit</button>
 
         <ng-template let-item="item" #defaultField>
             <span>Default template for {{item.linkId}}</span>
         </ng-template>
 
-        <ng-template let-item="item" #textAreaField>
-            <textarea [formControl]="getFormControl(item.linkId)">
+        <ng-template let-formControl="formControl" #textAreaField>
+            <textarea [formControl]="formControl">
             </textarea>
         </ng-template>
 
-        <ng-template let-item="item" #booleanField>
-            <input type="radio" value="true" name="field-{{item.linkId}}" [formControl]="getFormControl(item.linkId)"> True
-            <input type="radio" value="false" name="field-{{item.linkId}}" [formControl]="getFormControl(item.linkId)"> False
+        <ng-template let-item="item" let-formControl="formControl" #booleanField>
+            <input type="radio" value="true" name="field-{{item.linkId}}" [formControl]="formControl"> True
+            <input type="radio" value="false" name="field-{{item.linkId}}" [formControl]="formControl"> False
         </ng-template>
 
-        <ng-template let-item="item" #selectField>
-            <select [formControl]="getFormControl(item.linkId)">
-                <option *ngFor="let option of item.option" [value]="option.valueCoding">{{option.valueCoding.display}}</option>
+        <ng-template let-item="item" let-formControl="formControl" #selectField>
+            <select [formControl]="formControl">
+                <option *ngFor="let option of item.option" [value]="option.valueCoding.code">{{option.valueCoding.display}}</option>
             </select>
         </ng-template>
 
-        <ng-template let-item="item" #dateField>
-            <input type="date" [formControl]="getFormControl(item.linkId)">
+        <ng-template let-formControl="formControl" #dateField>
+            <input type="date" [formControl]="formControl">
         </ng-template>
     </form>
+</div>
+
+<div class="answer" *ngIf="!!questionnaireResponse">
+    <h3>Please check your answers</h3>
+    {{questionnaireResponse | json}}
 </div>

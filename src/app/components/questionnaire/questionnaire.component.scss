@@ -4,15 +4,35 @@
   padding: 0;
 }
 .main{
-  margin: auto;
+  margin:15px auto;
   padding: 10px;
   width: 90vw;
+  border: 1px solid #d3d3e0;
+  box-shadow: -5px 4px 5px rgb(169 157 157 / 21%);
 
   & > h2{
     margin-bottom: 10px;
   }
 
   &__field{
+    margin-bottom: 10px;
+    &-question{
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    &-error{
+      color: red;
+    }
+  }
+}
+
+.answer{
+  margin: auto;
+  padding: 10px;
+  width: 90vw;
+
+  & > h2{
     margin-bottom: 10px;
   }
 }

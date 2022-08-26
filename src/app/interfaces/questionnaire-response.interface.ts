@@ -1,7 +1,7 @@
 import {BaseItem, ValueCoding} from './questionnaire.interface';
 
 export interface QuestionnaireResponse {
-    resourceType: QuestionnaireResponse;
+    resourceType: "QuestionnaireResponse";
     id: string;
     url: string;
     status: string;

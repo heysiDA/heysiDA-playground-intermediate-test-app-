@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Questionnaire, QuestionnaireItem} from "../../interfaces/questionnaire.interface";
-import {QuestionnaireLoadingService} from "../../services/questionnaire-loading.service";
-import {Subscription} from "rxjs";
-import {FormControl, FormGroup} from "@angular/forms";
-import {QuestionnaireFormService} from "../../services/questionnaire-form.service";
-import {QuestionnaireItemTypeEnum} from "../../enum/questionnaire-item-type.enum";
+import {Questionnaire, QuestionnaireItem} from '../../interfaces/questionnaire.interface';
+import {QuestionnaireLoadingService} from '../../services/questionnaire-loading.service';
+import {Subscription} from 'rxjs';
+import {FormControl, FormGroup} from '@angular/forms';
+import {QuestionnaireFormService} from '../../services/questionnaire-form.service';
+import {QuestionnaireItemTypeEnum} from '../../enum/questionnaire-item-type.enum';
+import {QuestionnaireResponse} from '../../interfaces/questionnaire-response.interface';
 
 export interface ItemConfig {
   template: TemplateRef<any>;
@@ -21,6 +22,7 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   public form: FormGroup;
   public questionnaire: Questionnaire;
+  public questionnaireResponse: QuestionnaireResponse;
   public itemConfigs: ItemConfig[];
 
   @ViewChild('textAreaField', { read: TemplateRef }) textAreaFieldTemplate: TemplateRef<any>;
@@ -73,5 +75,25 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
 
   getFormControl(linkId: string): FormControl {
     return this.form.get(`item.${linkId}.answer`) as FormControl;
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.markFormGroupTouched(this.form);
+      return;
+    }
+
+    this.questionnaireResponse = this.questionnaireFormService.buildQuestionnaireResponse(this.questionnaire, this.form);
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      control.markAsDirty();
+
+      if ((control as FormGroup).controls) {
+        this.markFormGroupTouched(control as FormGroup);
+      }
+    });
   }
 }

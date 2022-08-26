@@ -1,4 +1,4 @@
-import {QuestionnaireItemTypeEnum} from "../enum/questionnaire-item-type.enum";
+import {QuestionnaireItemTypeEnum} from '../enum/questionnaire-item-type.enum';
 
 export interface Questionnaire {
     resourceType: "QuestionnaireResponse";
