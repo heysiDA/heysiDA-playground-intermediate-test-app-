@@ -2,7 +2,7 @@
     <h2>Please fill out this questionnaire</h2>
 
     <form [formGroup]="form" (submit)="onSubmit()">
-        <div class="main__field" formGroupName="item" *ngFor="let itemConfig of itemConfigs">
+        <div class="main__field" id="{{'field'+'_'+itemConfig.item.linkId}}" formGroupName="item" *ngFor="let itemConfig of itemConfigs">
             <span class="main__field-question">{{itemConfig.item.text}}</span>
             <ng-container
                     formGroupName="{{itemConfig.item.linkId}}"

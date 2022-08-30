@@ -25,11 +25,11 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
   public questionnaireResponse: QuestionnaireResponse;
   public itemConfigs: ItemConfig[];
 
-  @ViewChild('textAreaField', { read: TemplateRef }) textAreaFieldTemplate: TemplateRef<any>;
-  @ViewChild('booleanField', { read: TemplateRef }) booleanFieldTemplate: TemplateRef<any>;
-  @ViewChild('selectField', { read: TemplateRef }) selectFieldTemplate: TemplateRef<any>;
-  @ViewChild('dateField', { read: TemplateRef }) dateFieldTemplate: TemplateRef<any>;
-  @ViewChild('defaultField', { read: TemplateRef }) defaultFieldTemplate: TemplateRef<any>;
+  @ViewChild('textAreaField', { static: true }) textAreaFieldTemplate: TemplateRef<any>;
+  @ViewChild('booleanField', {static: true}) booleanFieldTemplate: TemplateRef<any>;
+  @ViewChild('selectField', { static: true }) selectFieldTemplate: TemplateRef<any>;
+  @ViewChild('dateField', { static: true }) dateFieldTemplate: TemplateRef<any>;
+  @ViewChild('defaultField', { static: true }) defaultFieldTemplate: TemplateRef<any>;
 
   constructor(
       private questionnaireLoadingService: QuestionnaireLoadingService,
@@ -45,7 +45,7 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
         .subscribe(info => {
           this.questionnaire = info;
           this.form = this.questionnaireFormService.buildForm(this.questionnaire);
-          this.itemConfigs = this.questionnaire.item.map(this.itemToTemplateConfig.bind(this))
+          this.itemConfigs = this.questionnaire.item.map(this.itemToTemplateConfig.bind(this));
         });
     this.subscription.add(getQuestionnaireIndo$);
   }

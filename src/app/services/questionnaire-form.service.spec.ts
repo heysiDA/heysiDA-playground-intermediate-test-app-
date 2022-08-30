@@ -4,7 +4,7 @@ import {Questionnaire} from "../interfaces/questionnaire.interface";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {QuestionnaireItemTypeEnum} from "../enum/questionnaire-item-type.enum";
 
-const mockQuestionnaire: Questionnaire = {
+export const mockQuestionnaire: Questionnaire = {
   resourceType: "Questionnaire",
   id: "f201",
   url: "http://hl7.org/fhir/Questionnaire/f201",
@@ -39,7 +39,17 @@ const mockQuestionnaire: Questionnaire = {
           }
         }
       ]
-    }
+    },
+    {
+      linkId: "3",
+      text: "What is your date of birth?",
+      type: QuestionnaireItemTypeEnum.date
+    },
+    {
+      linkId: "4",
+      text: "What is your country of birth?",
+      type: QuestionnaireItemTypeEnum.string
+    },
   ]
 };
 
